@@ -1,0 +1,8 @@
+# La base se regenera con 02_cargar.py (5 MB)
+*.duckdb
+*.duckdb.wal
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
