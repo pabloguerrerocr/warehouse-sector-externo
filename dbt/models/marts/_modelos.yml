@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: desacumulado
+    description: >
+      Convierte las series acumuladas dentro del anio en flujo mensual, con una
+      ventana particionada por anio. El chequeo que importa no es que el modelo
+      corra, sino que la suma de los flujos de un anio reproduzca el acumulado
+      de diciembre: eso lo prueba `assert_desacumulado_reconcilia`.
+    columns:
+      - name: serie_id
+        tests: [not_null]
+      - name: fecha
+        tests: [not_null]
+      - name: flujo
+        tests: [not_null]
+
+  - name: mensual
+    description: >
+      Panel mensual unificado. Es la tabla contra la que corre el motor de
+      calidad y de la que salen las transformaciones derivadas.
+    columns:
+      - name: serie_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_serie')
+                field: serie_id
+      - name: fecha
+        tests: [not_null]
+      - name: valor
+        tests: [not_null]
+
+  - name: variacion_interanual
+    description: >
+      Variacion contra el mismo mes del anio anterior. Depende de que la serie
+      no tenga huecos: `assert_sin_huecos_mensuales` corre antes.
+    columns:
+      - name: var_interanual_pc
+        description: Nulo en los primeros 12 meses de cada serie, por construccion.
+
+  - name: media_movil
+    description: Promedio movil de 3 meses con marco explicito de ventana.

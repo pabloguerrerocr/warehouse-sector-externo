@@ -1,0 +1,7 @@
+sector_externo:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../sector_externo.duckdb
+      threads: 4

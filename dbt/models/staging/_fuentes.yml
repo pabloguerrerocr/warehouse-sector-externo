@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: crudo
+    description: >
+      Las tablas que carga `02_cargar.py` desde los Excel del portal publico del
+      BCCR y desde FRED. dbt no las produce: las lee.
+    schema: main
+    tables:
+      - name: fact_observacion
+        description: Series que ya vienen como flujo del mes.
+        columns:
+          - name: serie_id
+            tests: [not_null]
+          - name: fecha
+            tests: [not_null]
+      - name: fact_acumulado_crudo
+        description: Series que el BCCR publica acumuladas dentro del anio.
+        columns:
+          - name: serie_id
+            tests: [not_null]
+      - name: dim_serie
+        description: Que es cada serie, su frecuencia y su proveedor.
+        columns:
+          - name: serie_id
+            tests: [unique, not_null]
+      - name: dim_fecha

@@ -95,3 +95,14 @@ dato es trabajo de quien conoce la serie, no del chequeo.
 
 Públicos: FRED (Reserva Federal de San Luis) y el portal de indicadores
 económicos del BCCR. Ninguno es de acceso restringido.
+
+## Capa dbt
+
+Las transformaciones también están como proyecto dbt en [`dbt/`](dbt/): mismos
+resultados —verificado con `EXCEPT` en ambas direcciones, cero filas de
+diferencia— pero con linaje, documentación y las pruebas corriendo dentro del
+grafo en vez de en un script aparte.
+
+```bash
+cd dbt && dbt build      # PASS 23 · WARN 1 · ERROR 0
+```

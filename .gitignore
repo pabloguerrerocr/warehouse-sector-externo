@@ -6,3 +6,9 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+
+# dbt: artefactos de corrida, no fuente
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+dbt/.user.yml
