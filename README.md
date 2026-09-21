@@ -1,7 +1,7 @@
 # warehouse-sector-externo
 
 Warehouse en DuckDB del panel macroeconómico de
-[sector-externo-cr-eeuu](https://github.com/jpguerreroc/sector-externo-cr-eeuu),
+[sector-externo-cr-eeuu](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu),
 con **la prueba de que mover los datos a SQL no alteró ni un número**.
 
 ```bash
