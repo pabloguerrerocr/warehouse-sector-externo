@@ -1,5 +1,7 @@
 # warehouse-sector-externo
 
+*[English version](README.en.md)*
+
 Warehouse en DuckDB del panel macroeconómico de
 `sector-externo-cr-eeuu` (repositorio privado mientras concluye la revisión académica),
 con **la prueba de que mover los datos a SQL no alteró ni un número**.
