@@ -2,14 +2,19 @@
 
 *[English version](README.en.md)*
 
+[![Pruebas](https://github.com/pabloguerrerocr/warehouse-sector-externo/actions/workflows/pruebas.yml/badge.svg)](https://github.com/pabloguerrerocr/warehouse-sector-externo/actions/workflows/pruebas.yml)
+
 Warehouse en DuckDB del panel macroeconómico de
-`sector-externo-cr-eeuu` (repositorio privado mientras concluye la revisión académica),
+[`sector-externo-cr-eeuu`](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu),
 con **la prueba de que mover los datos a SQL no alteró ni un número**.
 
 ```bash
 pip install duckdb pandas openpyxl
 python 07_pruebas.py       # reconstruye todo desde cero y lo verifica
 ```
+
+`07_pruebas.py` espera el repositorio de la tesis al lado, en `../tfg-sector-externo`.
+GitHub Actions corre las pruebas en cada cambio y cada lunes.
 
 ## Por qué existe
 

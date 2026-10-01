@@ -2,14 +2,19 @@
 
 *[Versión en español](README.md)*
 
-A DuckDB warehouse for the macroeconomic panel of `sector-externo-cr-eeuu` (a
-private repository while the academic review concludes), with **proof that moving
+[![Tests](https://github.com/pabloguerrerocr/warehouse-sector-externo/actions/workflows/pruebas.yml/badge.svg)](https://github.com/pabloguerrerocr/warehouse-sector-externo/actions/workflows/pruebas.yml)
+
+A DuckDB warehouse for the macroeconomic panel of
+[`sector-externo-cr-eeuu`](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu), with **proof that moving
 the data into SQL did not change a single number**.
 
 ```bash
 pip install duckdb pandas openpyxl
 python 07_pruebas.py       # rebuilds everything from scratch and verifies it
 ```
+
+`07_pruebas.py` expects the thesis repository next to it, at `../tfg-sector-externo`.
+GitHub Actions runs the tests on every change and every Monday.
 
 ## Why it exists
 

@@ -1,0 +1,30 @@
+# Reconstruye el warehouse desde cero y corre las pruebas de 07_pruebas.py:
+# integridad del esquema, reconciliacion contra el panel validado en Python y
+# reglas de negocio. El panel vive en el repositorio de la tesis, que se baja
+# al lado con el nombre que espera 07_pruebas.py (../tfg-sector-externo).
+name: Pruebas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 8 * * 1"
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: warehouse-sector-externo
+      - uses: actions/checkout@v4
+        with:
+          repository: pabloguerrerocr/sector-externo-cr-eeuu
+          path: tfg-sector-externo
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install duckdb pandas numpy openpyxl
+      - run: python warehouse-sector-externo/07_pruebas.py
