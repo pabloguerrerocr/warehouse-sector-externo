@@ -3,7 +3,7 @@
 *[English version](README.en.md)*
 
 Warehouse en DuckDB del panel macroeconómico de
-`sector-externo-cr-eeuu` (repositorio privado mientras concluye la revisión académica),
+[`sector-externo-cr-eeuu`](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu) (mi trabajo final de graduación),
 con **la prueba de que mover los datos a SQL no alteró ni un número**.
 
 ```bash

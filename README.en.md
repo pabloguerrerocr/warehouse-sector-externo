@@ -2,8 +2,8 @@
 
 *[Versión en español](README.md)*
 
-A DuckDB warehouse for the macroeconomic panel of `sector-externo-cr-eeuu` (a
-private repository while the academic review concludes), with **proof that moving
+A DuckDB warehouse for the macroeconomic panel of [`sector-externo-cr-eeuu`](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu)
+(my thesis), with **proof that moving
 the data into SQL did not change a single number**.
 
 ```bash
