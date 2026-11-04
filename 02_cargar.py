@@ -2,7 +2,8 @@
 
     python 02_cargar.py
 
-Lee los CSV ya validados de tfg-sector-externo y los pasa de formato ancho
+Lee los CSV ya validados del repositorio del TFG (sector-externo-cr-eeuu, ver
+tfg.py) y los pasa de formato ancho
 (una columna por variable) a largo (una fila por serie, fecha y valor).
 """
 import os
@@ -11,14 +12,13 @@ import sys
 import duckdb
 import pandas as pd
 
+import tfg
+
 sys.stdout.reconfigure(encoding="utf-8")
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-TFG = os.path.join(os.path.dirname(AQUI), "tfg-sector-externo", "data", "procesado")
+TFG = tfg.procesado()
 BD = os.path.join(AQUI, "sector_externo.duckdb")
-
-if not os.path.isdir(TFG):
-    sys.exit(f"No encuentro los CSV del TFG en {TFG}")
 
 con = duckdb.connect(BD)
 con.execute(open(os.path.join(AQUI, "01_esquema.sql"), encoding="utf-8").read())
@@ -87,8 +87,7 @@ con.close()
 # no de mensual a trimestre. Los meses tienen distinto numero de dias, asi que
 # promediar dos veces no da lo mismo. Un warehouse guarda el grano mas fino que
 # tenga disponible, y deja que cada agregacion salga de ahi.
-CACHE = os.path.join(os.path.dirname(AQUI), "tfg-sector-externo",
-                     "data", "raw", "cache")
+CACHE = os.path.join(tfg.crudo(), "cache")
 DIARIAS = {"t2y": "fred_DGS2.csv", "dolar": "fred_DTWEXBGS.csv"}
 
 con = duckdb.connect(BD)
@@ -104,7 +103,9 @@ ini, fin = "2015-01-01", "2025-12-31"
 for serie_id, archivo in DIARIAS.items():
     ruta = os.path.join(CACHE, archivo)
     if not os.path.exists(ruta):
-        print(f"  aviso: falta {archivo}")
+        print(f"  aviso: falta {archivo}. Sin el grano diario, {serie_id} trimestral no se\n"
+              f"  puede reconciliar. Para bajarlo, en el repo del TFG: "
+              f"python main.py --descargar-fred")
         continue
     d = pd.read_csv(ruta)
     d.columns = ["fecha", "valor"]

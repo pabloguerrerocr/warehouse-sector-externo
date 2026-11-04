@@ -13,10 +13,12 @@ import sys
 import duckdb
 import pandas as pd
 
+import tfg
+
 sys.stdout.reconfigure(encoding="utf-8")
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-RAW = os.path.join(os.path.dirname(AQUI), "tfg-sector-externo", "data", "raw")
+RAW = tfg.crudo()
 BD = os.path.join(AQUI, "sector_externo.duckdb")
 
 # serie_id -> (archivo, indice de la columna de valores en el cuadro)

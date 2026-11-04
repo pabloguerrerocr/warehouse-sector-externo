@@ -14,10 +14,12 @@ import duckdb
 import numpy as np
 import pandas as pd
 
+import tfg
+
 sys.stdout.reconfigure(encoding="utf-8")
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-TFG = os.path.join(os.path.dirname(AQUI), "tfg-sector-externo", "data", "procesado")
+TFG = tfg.procesado()
 BD = os.path.join(AQUI, "sector_externo.duckdb")
 TOL = 1e-9
 
