@@ -13,14 +13,16 @@ import duckdb
 import numpy as np
 import pandas as pd
 
+import tfg
+
 sys.stdout.reconfigure(encoding="utf-8")
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-TFG = os.path.join(os.path.dirname(AQUI), "tfg-sector-externo", "data", "procesado")
+TFG = tfg.procesado()
 TOL = 1e-9
 
 con = duckdb.connect(os.path.join(AQUI, "sector_externo.duckdb"))
-fallas = []
+fallas, comparadas, omitidas = [], [], []
 
 
 def comparar(nombre, esperado, obtenido, clave):
@@ -28,6 +30,7 @@ def comparar(nombre, esperado, obtenido, clave):
     huerf = (j["_merge"] != "both").sum()
     d = float(np.nanmax(np.abs(j["esperado"] - j["obtenido"]))) if len(j) else 0.0
     ok = huerf == 0 and d <= TOL
+    comparadas.append(nombre)
     print(f"  {'OK ' if ok else 'MAL'} {nombre:34} dif={d:.2e}  filas={len(j)}"
           + (f"  SIN PAREJA={huerf}" if huerf else ""))
     if not ok:
@@ -76,9 +79,19 @@ sql_q = con.execute("""
     SELECT * FROM diarias UNION ALL SELECT * FROM resto
 """).df()
 sql_q["fecha"] = pd.to_datetime(sql_q["fecha"])
+# Una serie diaria sin su grano diario no se puede reconciliar en trimestral:
+# promediar los promedios mensuales da otro numero. Se omite y se dice.
+diarias = {r[0] for r in con.execute(
+    "SELECT serie_id FROM dim_serie WHERE frecuencia = 'D'").fetchall()}
+con_grano = {r[0] for r in con.execute(
+    "SELECT DISTINCT serie_id FROM fact_observacion_diaria").fetchall()}
 for col in q.columns.drop("fecha"):
     s = sql_q[sql_q.serie_id == col]
     if s.empty:
+        continue
+    if col in diarias and col not in con_grano:
+        print(f"  --  {col:34} omitida: falta el grano diario de FRED")
+        omitidas.append(col)
         continue
     comparar(col,
              q[["fecha", col]].rename(columns={col: "esperado"}),
@@ -89,4 +102,11 @@ con.close()
 print("\n" + "=" * 62)
 if fallas:
     sys.exit(f"FALLARON {len(fallas)}: {', '.join(fallas)}")
-print("VEREDICTO: el warehouse reproduce el panel validado, dato por dato.")
+if omitidas:
+    print(f"VEREDICTO: {len(comparadas)} de {len(comparadas) + len(omitidas)} series "
+          f"reproducen el panel validado; se omitieron {len(omitidas)} "
+          f"({', '.join(omitidas)}) por falta del grano diario.\n"
+          "Para comparar todas, en el repo del TFG: python main.py --descargar-fred")
+else:
+    print(f"VEREDICTO: el warehouse reproduce el panel validado, dato por dato "
+          f"({len(comparadas)} series).")

@@ -15,8 +15,9 @@ Comparado con `EXCEPT` en ambas direcciones: cero filas de diferencia.
 ## Correr
 
 ```bash
+pip install dbt-duckdb
 cd dbt
-set DBT_PROFILES_DIR=.        # en PowerShell: $env:DBT_PROFILES_DIR="."
+export DBT_PROFILES_DIR=.     # Windows: set DBT_PROFILES_DIR=.  ·  PowerShell: $env:DBT_PROFILES_DIR="."
 dbt build                     # construye y prueba
 dbt docs generate && dbt docs serve
 ```
