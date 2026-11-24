@@ -1,0 +1,2 @@
+# El SQL es el centro del repo: GitHub lo esconde por defecto, esto lo hace contar.
+*.sql linguist-detectable

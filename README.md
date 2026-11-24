@@ -2,6 +2,8 @@
 
 *[English version](README.en.md)*
 
+**Herramientas:** SQL (DuckDB, dbt) · Python (pandas) · Excel como fuente de los datos
+
 Warehouse en DuckDB del panel macroeconómico de
 [`sector-externo-cr-eeuu`](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu) (mi trabajo final de graduación),
 con **la prueba de que mover los datos a SQL no alteró ni un número**.

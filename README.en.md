@@ -2,6 +2,8 @@
 
 *[Versión en español](README.md)*
 
+**Tools:** SQL (DuckDB, dbt) · Python (pandas) · Excel as the data source
+
 A DuckDB warehouse for the macroeconomic panel of [`sector-externo-cr-eeuu`](https://github.com/pabloguerrerocr/sector-externo-cr-eeuu)
 (my thesis), with **proof that moving
 the data into SQL did not change a single number**.
